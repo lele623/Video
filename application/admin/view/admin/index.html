@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/layui/css/layui.css">
+    <script type="text/javascript" src="__STATIC__/layui/layui.js"></script>
+    <style type="text/css">
+        .header span{background:#009688;margin-left: 30px;padding: 10px;color: #ffffff;}
+        .header div{border-bottom: solid #009688 2px;margin-top: 8px;}
+        .header button{float: right;margin-top: -5px;}
+    </style>
+</head>
+<body style="padding: 10px;">
+    <div class="header">
+        <span>管理员列表</span>
+        <button class="layui-btn layui-btn-sm" onclick="add()">添加</button>
+        <div></div>
+    </div>
+    <table class="layui-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>用户名</th>
+                <th>真实姓名</th>
+                <th>角色</th>
+                <th>状态</th>
+                <th>添加时间</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {volist name="data.lists" id='vo'}
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.username}</td>
+                    <td>{$vo.truename}</td>
+                    <td>{:isset($data['groups'][$vo.gid]) ? $data['groups'][$vo.gid]['title'] : ''}</td>
+                    <td>{$vo.state==0?'正常':'<span style="color: red;">禁用</span>'}</td>
+                    <td>{:date('Y-m-d H:i:s',$vo.add_time)}</td>
+                    <td>
+                        <button class="layui-btn layui-btn-xs" onclick="add('{$vo.id}')">编辑</button>
+                        <button class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('{$vo.id}','{$vo.username}')">删除</button>
+                    </td>
+                </tr>
+            {/volist}
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        layui.use(['layer'],function(){
+            layer = layui.layer;
+            $ = layui.jquery;
+        });
+        //添加管理员
+        function add(id) {
+            layer.open({
+                type: 2,
+                title: id>0 ? '编辑管理员':'添加管理员',
+                shade: 0.3,
+                area: ['480px', '420px'],
+                content: '/admin.php/admin/Admin/add?id='+id//iframe的url
+            });
+        }
+        //删除管理员
+        function del(id,name) {
+            layer.confirm('确定要删除  '+name+'  ？', {
+                btn: ['确认','取消']
+            }, function(){
+                $.post('/admin.php/admin/Admin/delete',{'id':id},function (res) {
+                    if(res.code>0){
+                        layer.alert(res.msg,{icon:2});
+                    }else{
+                        layer.msg(res.msg);
+                        setTimeout(function(){window.location.reload();},1000);
+                    }
+                },'json');
+            });
+        }
+    </script>
+</body>
+</html>

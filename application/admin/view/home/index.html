@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/layui/css/layui.css">
+    <script type="text/javascript" src="__STATIC__/layui/layui.js"></script>
+    <style type="text/css">
+        /*header*/
+        .header{width:100%;height: 50px;line-height: 50px;background: #2e6da4;color: #FFFFFF;}
+        .title{margin-left: 20px;font-size: 20px;}
+        .userinfo{float: right;margin-right: 20px;}
+        .userinfo a{color: #FFFFFF;}
+        /*menu*/
+        .menu{width: 200px;background: #333744;position: absolute;}
+        .layui-collapse{border: none;}
+        .layui-colla-item{border-top: none;}
+        .layui-colla-title{background: #42485b;color:#ffffff;}
+        .layui-colla-content{padding: 0px;border-top:none;}
+        /*main*/
+        .main{position: absolute;left: 200px;right: 0px;}
+        .main-border{width: 100%;height: 100%;}
+    </style>
+</head>
+<body>
+    <!--头部-header-->
+    <div class="header">
+        <span class="title">后台管理系统</span>
+        <sapn class="userinfo">{$data['username']}【{:isset($data['groups'][$data['gid']]['title']) ? $data['groups'][$data['gid']]['title'] : '' }】<a href="javascript:;">退出</a></sapn>
+    </div>
+    <!--左侧菜单-menu-->
+    <div class="menu" id="menu">
+        <div class="layui-collapse" lay-accordion>
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">管理员管理</h2>
+                <div class="layui-colla-content">
+                    <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                        <li class="layui-nav-item"><a href="javascript:;" onclick="menyFire(this)" src="/admin.php/admin/Admin/index">管理员列表</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">权限管理</h2>
+                <div class="layui-colla-content">
+                    <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                        <li class="layui-nav-item"><a href="javascript:;" onclick="menyFire(this)" src="/admin.php/admin/Menu/index">菜单管理</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="layui-colla-item">
+                <h2 class="layui-colla-title">系统设置</h2>
+                <div class="layui-colla-content">内容区域</div>
+            </div>
+        </div>
+    </div>
+    <!--主操作页面-main-->
+    <div class="main">
+        <iframe src="/admin.php/admin/Home/welcome" onload="setMainHeight(this)" class="main-border" frameborder="0" scrolling="0"></iframe>
+    </div>
+    <script>
+        //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+        layui.use('element', function(){
+            var element = layui.element;
+            $ = layui.jquery;
+            setMenuHeight();
+        });
+        //设置左侧菜单高度
+        function setMenuHeight() {
+            var height = document.documentElement.clientHeight - 50;
+            $('#menu').height(height);
+        }
+        //设置主操作页面高度
+        function setMainHeight(obj) {
+            var height = parent.document.documentElement.clientHeight - 50;
+            $(obj).parent('div').height(height);
+        }
+        //点击菜单显示主操作页面
+        function menyFire(obj) {
+            //获取URL
+            var src = $(obj).attr('src');
+            //设置主操作页面的src
+            $('iframe').attr('src',src);
+        }
+    </script>
+</body>
+</html>
