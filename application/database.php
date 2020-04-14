@@ -17,9 +17,9 @@ return [
     // 数据库名
     'database'        => 'video',
     // 用户名 lyb
-    'username'        => 'root',
+    'username'        => 'lyb',
     // 密码 zF6wjLmJL8Fw8fM2
-    'password'        => '',
+    'password'        => 'zF6wjLmJL8Fw8fM2',
     // 端口
     'hostport'        => '',
     // 连接dsn
