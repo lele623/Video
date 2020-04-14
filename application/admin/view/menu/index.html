@@ -19,6 +19,7 @@
         {if condition="$pid>0"}
             <button class="layui-btn layui-btn-primary layui-btn-sm" style="float: right;margin:5px 0px;" onclick="child({$backid});return false;">返回上一级</button>
         {/if}
+        <input type="hidden" name="pid" value="{$pid}">
         <table class="layui-table">
             <thead>
                 <tr>
@@ -37,10 +38,10 @@
                     <tr>
                         <td>{$vo.mid}</td>
                         <td><input type="text" class="layui-input" name="ords[{$vo.mid}]" value="{$vo.ord}"></td>
-                        <td><input type="text" class="layui-input" name="title[{$vo.mid}]" value="{$vo.title}"></td>
-                        <td><input type="text" class="layui-input" name="controller[{$vo.mid}]" value="{$vo.controller}"></td>
-                        <td><input type="text" class="layui-input" name="method[{$vo.mid}]" value="{$vo.method}"></td>
-                        <td><input type="checkbox" lay-skin="primary" name="ishidden[{$vo.mid}]" value=1 title="隐藏" {$vo.ishidden ? 'checked' : ''}></td>
+                        <td><input type="text" class="layui-input" name="titles[{$vo.mid}]" value="{$vo.title}"></td>
+                        <td><input type="text" class="layui-input" name="controllers[{$vo.mid}]" value="{$vo.controller}"></td>
+                        <td><input type="text" class="layui-input" name="methods[{$vo.mid}]" value="{$vo.method}"></td>
+                        <td><input type="checkbox" lay-skin="primary" name="ishiddens[{$vo.mid}]" value=1 title="隐藏" {$vo.ishidden ? 'checked' : ''}></td>
                         <td><input type="checkbox" lay-skin="primary" name="status[{$vo.mid}]" value=1 title="禁用" {$vo.status ? 'checked' : ''}></td>
                         <td><button class="layui-btn layui-btn-xs" onclick="child({$vo.mid});return false;" >子菜单</button></td>
                     </tr>
@@ -48,10 +49,10 @@
                 <tr>
                     <td></td>
                     <td><input type="text" class="layui-input" name="ords[0]"></td>
-                    <td><input type="text" class="layui-input" name="title[0]"></td>
-                    <td><input type="text" class="layui-input" name="controller[0]"></td>
-                    <td><input type="text" class="layui-input" name="method[0]"></td>
-                    <td><input type="checkbox" lay-skin="primary" name="ishidden[0]" value=1 title="隐藏" ></td>
+                    <td><input type="text" class="layui-input" name="titles[0]"></td>
+                    <td><input type="text" class="layui-input" name="controllers[0]"></td>
+                    <td><input type="text" class="layui-input" name="methods[0]"></td>
+                    <td><input type="checkbox" lay-skin="primary" name="ishiddens[0]" value=1 title="隐藏" ></td>
                     <td><input type="checkbox" lay-skin="primary" name="status[0]" value=1 title="禁用"></td>
                     <td></td>
                 </tr>
@@ -73,9 +74,10 @@
         function save() {
             $.post('/admin.php/admin/Menu/save',$('form').serialize(),function (res) {
                 if(res.code>0){
-                    layer.alert(res.msg,{cion:1});
+                    layer.alert(res.msg,{icon:2});
                 }else{
-
+                    layer.msg(res.msg);
+                    setTimeout(function(){window.location.reload();},1000);
                 }
             },'json');
         }
