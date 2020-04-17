@@ -35,7 +35,7 @@
                 <h2 class="layui-colla-title">管理员管理</h2>
                 <div class="layui-colla-content">
                     <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                        <li class="layui-nav-item"><a href="javascript:;" onclick="menyFire(this)" src="/admin.php/admin/Admin/index">管理员列表</a></li>
+                        <li class="layui-nav-item"><a href="javascript:;" onclick="menyFire(this)" src="/admin/Admin/index">管理员列表</a></li>
                     </ul>
                 </div>
             </div>
@@ -43,7 +43,8 @@
                 <h2 class="layui-colla-title">权限管理</h2>
                 <div class="layui-colla-content">
                     <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                        <li class="layui-nav-item"><a href="javascript:;" onclick="menyFire(this)" src="/admin.php/admin/Menu/index">菜单管理</a></li>
+                        <li class="layui-nav-item"><a href="javascript:;" onclick="menyFire(this)" src="/admin/Menu/index">菜单管理</a></li>
+                        <li class="layui-nav-item"><a href="javascript:;" onclick="menyFire(this)" src="/admin/Roles/index">角色管理</a></li>
                     </ul>
                 </div>
             </div>
@@ -55,7 +56,7 @@
     </div>
     <!--主操作页面-main-->
     <div class="main">
-        <iframe src="/admin.php/admin/Home/welcome" onload="setMainHeight(this)" class="main-border" frameborder="0" scrolling="0"></iframe>
+        <iframe src="/admin/Home/welcome" onload="setMainHeight(this)" class="main-border" frameborder="0" scrolling="0"></iframe>
     </div>
     <script>
         //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作

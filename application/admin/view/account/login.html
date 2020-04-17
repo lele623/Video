@@ -61,12 +61,12 @@
             layer.alert('请输入密码',{icon:2});
             return;
         }
-        $.post('/admin.php/admin/Account/dologin',{'username':username,'password':password},function(res){
+        $.post('/admin/Account/dologin',{'username':username,'password':password},function(res){
             if(res.code>0){
                 layer.alert(res.msg,{icon:2});
             }else{
                 layer.msg(res.msg);
-                setTimeout(function(){window.location.href = '/admin.php/admin/Home/index'},1000);
+                setTimeout(function(){window.location.href = '/admin/Home/index'},1000);
             }
         },'json');
 

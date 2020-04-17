@@ -68,11 +68,11 @@
         });
         //子菜单以及返回上一级
         function child(pid) {
-            window.location.href="/admin.php/admin/Menu/index?pid="+pid;
+            window.location.href="/admin/Menu/index?pid="+pid;
         }
         //保存数据
         function save() {
-            $.post('/admin.php/admin/Menu/save',$('form').serialize(),function (res) {
+            $.post('/admin/Menu/save',$('form').serialize(),function (res) {
                 if(res.code>0){
                     layer.alert(res.msg,{icon:2});
                 }else{

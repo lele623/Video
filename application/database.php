@@ -16,10 +16,10 @@ return [
     'hostname'        => '127.0.0.1',
     // 数据库名
     'database'        => 'video',
-    // 用户名 lyb
-    'username'        => 'lyb',
-    // 密码 zF6wjLmJL8Fw8fM2
-    'password'        => 'zF6wjLmJL8Fw8fM2',
+    // 用户名
+    'username'        => 'root',
+    // 密码
+    'password'        => 'root',
     // 端口
     'hostport'        => '',
     // 连接dsn

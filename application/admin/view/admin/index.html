@@ -58,7 +58,7 @@
                 title: id>0 ? '编辑管理员':'添加管理员',
                 shade: 0.3,
                 area: ['480px', '420px'],
-                content: '/admin.php/admin/Admin/add?id='+id//iframe的url
+                content: '/admin/Admin/add?id='+id//iframe的url
             });
         }
         //删除管理员
@@ -66,7 +66,7 @@
             layer.confirm('确定要删除  '+name+'  ？', {
                 btn: ['确认','取消']
             }, function(){
-                $.post('/admin.php/admin/Admin/delete',{'id':id},function (res) {
+                $.post('/admin/Admin/delete',{'id':id},function (res) {
                     if(res.code>0){
                         layer.alert(res.msg,{icon:2});
                     }else{

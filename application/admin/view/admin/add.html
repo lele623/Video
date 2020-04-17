@@ -86,8 +86,7 @@
                 layer.alert('请输入真实姓名',{icon:2});
                 return;
             }
-
-            $.post('/admin.php/admin/Admin/save',$('form').serialize(),function (res) {
+            $.post('/admin/Admin/save',$('form').serialize(),function (res) {
                 if(res.code>0){
                     layer.alert(res.msg,{icon:2});
                 }else{
