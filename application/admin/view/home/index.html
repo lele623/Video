@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>首页</title>
     <link rel="stylesheet" type="text/css" href="__STATIC__/layui/css/layui.css">
     <script type="text/javascript" src="__STATIC__/layui/layui.js"></script>
     <style type="text/css">
@@ -11,6 +11,10 @@
         .title{margin-left: 20px;font-size: 20px;}
         .userinfo{float: right;margin-right: 20px;}
         .userinfo a{color: #FFFFFF;}
+        .userinfo a:hover{color: red;}
+        .clearcache{float: right;margin-right: 100px;}
+        .clearcache a{color: #ffffff;}
+        .clearcache a:hover{color: red;}
         /*menu*/
         .menu{width: 200px;background: #333744;position: absolute;}
         .layui-collapse{border: none;}
@@ -27,6 +31,7 @@
     <div class="header">
         <span class="title">后台管理系统</span>
         <sapn class="userinfo">{$data['username']}【{:isset($data['groups'][$data['gid']]['title']) ? $data['groups'][$data['gid']]['title'] : '' }】<a href="javascript:;">退出</a></sapn>
+        <span class="clearcache"><a href="/admin/Home/clearcache ">清理缓存数据</a></span>
     </div>
     <!--左侧菜单-menu-->
     <div class="menu" id="menu">

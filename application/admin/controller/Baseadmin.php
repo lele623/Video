@@ -19,6 +19,9 @@ class Baseadmin extends Controller
             exit;
         }
         //判断用户是否有权限
+
+
+        //实例化自定义的数据库函数
         $this->db = new Sysdb();
     }
 }
