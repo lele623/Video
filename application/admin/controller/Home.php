@@ -7,13 +7,36 @@ use think\Cache;
  */
 class Home extends Baseadmin
 {
-    //后台首页
+    //后台头部首页以及菜单列表
     public function index(){
-        $data['username'] = session("admin")['username'];
-        $data['gid'] = session("admin")['gid'];
-        $data['groups'] = $this->db->table('admin_groups')->field("gid,title")->cates('gid');
-        $this->assign('data',$data);
+        $menus = false;
+        $role = $this->db->table('admin_groups')->where(array('gid'=>$this->_admin['gid']))->item();
+        $role['name'] = $this->_admin['username'];
+        if($role){
+            $role['rights'] =(isset($role['rights']) && $role['rights']) ? json_decode($role['rights'],true) : [];
+        }
+        if($role['rights']){
+            $where = 'mid in('.implode(',',$role['rights']).') and ishidden=0 and status=0';
+            $menus = $this->db->table('admin_menus')->where($where)->cates('mid');
+            $menus && $menus =$this->gettreeitems($menus);
+        }
+        //按权限显示列表
+        $this->assign('menus',$menus);
+        //显示当前登录的角色以及用户名
+        $this->assign('role',$role);
         return $this->fetch();
+    }
+    //无限极分类
+    private function gettreeitems($items){
+        $tree = array();
+        foreach ($items as $item){
+            if(isset($items[$item['pid']])){
+                $items[$item['pid']]['children'][] = &$items[$item['mid']];
+            }else{
+                $tree[] = &$items[$item['mid']];
+            }
+        }
+        return $tree ;
     }
     //主页面首页
     public function welcome(){

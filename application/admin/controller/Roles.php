@@ -15,8 +15,16 @@ class Roles extends Baseadmin
         $this->assign('data',$data);
         return $this->fetch();
     }
-    //角色添加编辑
+    //角色添加与编辑
     public function add(){
+        //接收编辑的gid
+        $gid = (int)input('get.gid');
+        $role =$this->db->table('admin_groups')->where(array('gid'=>$gid))->item();
+        //$role和$role['rights']不为空。则把数据库里json格式的rights赋值给$role['rights']
+        $role && $role['rights'] && $role['rights'] = json_decode($role['rights']);
+        $this->assign('role',$role);
+
+        //查询出权限列表。并自定义索引做无限极分类
         $menus_list = $this->db->table('admin_menus')->where(array('status' => 0))->cates('mid');
         $menus = $this->gettreeitems($menus_list);
         $results = array();
@@ -53,18 +61,32 @@ class Roles extends Baseadmin
         }
         return $res;
     }
-    //保存
+    //编辑保存
     public function save(){
+        $gid =(int)input('post.gid');
         $data['title'] = trim(input('post.title'));
         $menus = input('post.menu/a');
-        if($data['title']){
+        if(!$data['title']){
             exit(json_encode(array('code'=>1,'mag'=>'角色名称不能为空')));
         }
         //如果设置了权限则转化为json格式存入数据库
-        $menus && $data['rights'] = json_encode($menus);
-
-        $this->db->table(['admin_groups'])->insert($data);
-        exit(json_encode(array('code'=>0,'msg'=>'保存成功')));
-
+        $menus && $data['rights'] = json_encode(array_keys($menus));
+        if($gid){
+            $this->db->table('admin_groups')->where(array('gid'=>$gid))->update($data);
+            exit(json_encode(array('code'=>0,'msg'=>'编辑成功')));
+        }else{
+            $this->db->table('admin_groups')->insert($data);
+            exit(json_encode(array('code'=>0,'msg'=>'保存成功')));
+        }
+        exit(json_encode(array('code'=>1,'msg'=>'操作失败')));
+    }
+    //删除角色
+    public function delete(){
+        $gid = (int)input('post.gid');
+        if($gid){
+            $this->db->table('admin_groups')->where(array('gid'=>$gid))->delete();
+            exit(json_encode(array('code'=>0,'msg'=>'删除成功')));
+        }
+        exit(json_encode(array('code'=>1,'msg'=>'删除失败')));
     }
 }

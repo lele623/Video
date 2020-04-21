@@ -30,8 +30,8 @@
                 <td>{$vo.gid}</td>
                 <td>{$vo.title}</td>
                 <td>
-                    <button class="layui-btn layui-btn-warm layui-btn-xs" onclick="add({$vo.gid})">编辑</button>
-                    <button class="layui-btn layui-btn-danger layui-btn-xs" onclick="del({$vo.gid})">删除</button>
+                    <button class="layui-btn layui-btn-warm layui-btn-xs" onclick="add('{$vo.gid}')">编辑</button>
+                    <button class="layui-btn layui-btn-danger layui-btn-xs" onclick="del('{$vo.gid}','{$vo.title}')">删除</button>
                 </td>
             </tr>
         {/volist}
@@ -47,13 +47,28 @@
         layer = layui.layer;
     });
     //添加与编辑
-    function add() {
+    function add(gid) {
         layer.open({
             type: 2,
-            title: '添加角色',
+            title: gid>0 ? '编辑角色' : '添加角色',
             shade: 0.3,
             area: ['500px', '450px'],
-            content: '/admin/Roles/add'
+            content: '/admin/Roles/add?gid='+gid
+        });
+    }
+    function del(gid,name) {
+        layer.confirm('确定要删除  '+name+'  ？', {
+            icon:3,
+            btn: ['确认','取消']
+        }, function(){
+            $.post('/admin/Roles/delete',{'gid':gid},function (res) {
+                if(res.code>0){
+                    layer.alert(res.msg,{icon:2});
+                }else{
+                    layer.msg(res.msg);
+                    setTimeout(function(){window.location.reload();},1000);
+                }
+            },'json');
         });
     }
 </script>

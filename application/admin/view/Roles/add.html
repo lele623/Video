@@ -8,10 +8,11 @@
 </head>
 <body style="padding: 10px;">
     <form class="layui-form">
+        <input type="hidden" name="gid" value="{$role.gid}">
         <div class="layui-form">
             <label class="layui-form-label">角色名称</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" name="title">
+                <input type="text" class="layui-input" name="title" value="{$role.title}">
             </div>
         </div>
 
@@ -19,11 +20,11 @@
             <label class="layui-form-label">权限管理</label>
             {volist name="menus" id="vo"}
             <div class="layui-input-block">
-                <input type="checkbox" name="menu[{$vo.mid}]" lay-skin="primary" title="{$vo.title}">
-                <hr>
+                <input type="checkbox" name="menu[{$vo.mid}]" lay-skin="primary" title="{$vo.title}" {:isset($role['rights']) && $role['rights'] && in_array($vo.mid,$role['rights']) ? 'checked' : ''}>
                 {volist name="vo.children" id="cvo"}
-                <input type="checkbox" name="menu[{$cvo.mid}]" lay-skin="primary" title="{$cvo.title}">
+                <input type="checkbox" name="menu[{$cvo.mid}]" lay-skin="primary" title="{$cvo.title}" {:isset($role['rights']) && $role['rights'] && in_array($cvo.mid,$role['rights']) ? 'checked' : ''}>
                 {/volist}
+                <hr>
             </div>
             {/volist}
         </div>
@@ -47,13 +48,13 @@
             layer.msg('请填写角色名称',{icon:2});
             return;
         }
-        $.post('admin/Roles/add',$('form').serialize(),function (res) {
+        $.post('/admin/Roles/save',$('form').serialize(),function (res) {
             if(res.code>0){
                 layer.alert(res.msg,{icon:2});
             }else{
                 layer.msg(res.msg);
                 setTimeout(function(){parent.window.location.reload();},1000);
             }
-        },json)
+        },'json');
     }
 </script>

@@ -30,33 +30,26 @@
     <!--头部-header-->
     <div class="header">
         <span class="title">后台管理系统</span>
-        <sapn class="userinfo">{$data['username']}【{:isset($data['groups'][$data['gid']]['title']) ? $data['groups'][$data['gid']]['title'] : '' }】<a href="javascript:;">退出</a></sapn>
+        <sapn class="userinfo">{$role['name']}【{:isset($role['title']) ? $role['title'] : '' }】<a href="javascript:;">退出</a></sapn>
         <span class="clearcache"><a href="/admin/Home/clearcache ">清理缓存数据</a></span>
     </div>
     <!--左侧菜单-menu-->
     <div class="menu" id="menu">
         <div class="layui-collapse" lay-accordion>
+            {volist name="menus" id="vo"}
             <div class="layui-colla-item">
-                <h2 class="layui-colla-title">管理员管理</h2>
+                <h2 class="layui-colla-title">{$vo.title}</h2>
                 <div class="layui-colla-content">
+                    <?php if(isset($vo['children']) && $vo['children']){?>
                     <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                        <li class="layui-nav-item"><a href="javascript:;" onclick="menyFire(this)" src="/admin/Admin/index">管理员列表</a></li>
+                        {volist name="vo.children" id="cvo"}
+                        <li class="layui-nav-item"><a href="javascript:;" onclick="menyFire(this)" src="/admin/{$cvo.controller}/{$cvo.method}">{$cvo.title}</a></li>
+                        {/volist}
                     </ul>
+                    <?php }?>
                 </div>
             </div>
-            <div class="layui-colla-item">
-                <h2 class="layui-colla-title">权限管理</h2>
-                <div class="layui-colla-content">
-                    <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                        <li class="layui-nav-item"><a href="javascript:;" onclick="menyFire(this)" src="/admin/Menu/index">菜单管理</a></li>
-                        <li class="layui-nav-item"><a href="javascript:;" onclick="menyFire(this)" src="/admin/Roles/index">角色管理</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="layui-colla-item">
-                <h2 class="layui-colla-title">系统设置</h2>
-                <div class="layui-colla-content">内容区域</div>
-            </div>
+            {/volist}
         </div>
     </div>
     <!--主操作页面-main-->
