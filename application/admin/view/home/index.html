@@ -54,25 +54,22 @@
     </div>
     <!--主操作页面-main-->
     <div class="main">
-        <iframe src="/admin/Home/welcome" onload="setMainHeight(this)" class="main-border" frameborder="0" scrolling="0"></iframe>
+        <iframe src="/admin/Home/welcome" class="main-border" frameborder="0" scrolling="0"></iframe>
     </div>
     <script>
         //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
         layui.use('element', function(){
             var element = layui.element;
             $ = layui.jquery;
-            setMenuHeight();
-        });
-        //设置左侧菜单高度
-        function setMenuHeight() {
+
+            //设置左侧菜单高度
             var height = document.documentElement.clientHeight - 50;
             $('#menu').height(height);
-        }
-        //设置主操作页面高度
-        function setMainHeight(obj) {
+
+            //设置主操作页面高度
             var height = parent.document.documentElement.clientHeight - 50;
             $(obj).parent('div').height(height);
-        }
+        });
         //点击菜单显示主操作页面
         function menyFire(obj) {
             //获取URL
